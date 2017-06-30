@@ -4,26 +4,30 @@ import React, { Component } from 'react';
 class App extends React.Component {
   constructor() {
     super();
+
+    this.state = { currentEvent: '--' }
+
+    this.update = this.update.bind(this)
+  }
+
+  update(e) {
+    this.setState({currentEvent: e.type})
   }
 
   render() {
     let text = "Dog";
     return (
-      <Title text={text}/>
+      <div>
+        <textarea
+          onKeyPress={this.update}
+          onCopy={this.update}
+          onCut={this.update}
+          onFocus={this.update}
+          onBlur={this.update}
+        />
+        <h1>{this.state.currentEvent}</h1>
+      </div>
     );
-  }
-}
-
-const Title = (props) => <h1>{props.text}</h1>
-
-Title.propsTypes = {
-  text(props, propName, component) {
-    if(!(propName in props)) {
-      return new Error(`Missing ${propName} in props`)
-    }
-    if(props[propName].length < 6) {
-      return new Error(`${propName} must be 6 or more characters`)
-    }
   }
 }
 
