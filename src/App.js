@@ -1,80 +1,49 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-// const App = () => <h1>Hello Stateless</h1>
-
-// Share common functionality between components
-// Takes in a component and returns a new component
-// Replaces mixins?
-// E.g., build components to specification instead of including mixins all over
-// ??? Not 100% sure how this differs from mixins... more explicit, I guess?
-const HigherOrderComponent = (InnerComponent) => class extends React.Component {
-  constructor() {
-    super()
-
-    this.state = { count: 0 }
-  }
-
-  componentWillMount() {
-    console.log("HigherOrderComponent will mount")
-  }
-
-  update() {
-    this.setState({count: this.state.count+1})
-  }
-
-  render() {
-    return (
-      <InnerComponent
-        {...this.props}
-        {...this.state}
-        update={this.update.bind(this)}
-      />
-    )
-  }
-}
-
+import './App.css'
 
 class App extends React.Component {
   constructor() {
     super();
 
+    this.state = {
+      input: '/* add your JSX here */',
+      output: '',
+      err: ''
+    }
+  }
+
+  update(e) {
+    let code = e.target.value;
+
+    try {
+      this.setState({
+        output: window.Babel
+          .transform(code, { presets: ['es2015', 'react']})
+          .code,
+          err: ''
+      })
+    }
+    catch(err) {
+      this.setState({err: err.message})
+    }
   }
 
   render() {
     return(
       <div>
-        <Button>button</Button>
-        <hr />
-        <LabelHOC>label</LabelHOC>
+        <header>{this.state.err}</header>
+        <div className="container">
+          <textarea
+            onChange={this.update.bind(this)}
+            defaultValue={this.state.input}
+          />
+          <pre>
+            {this.state.output}
+          </pre>
+        </div>
       </div>
     )
   }
 }
-
-const Button = HigherOrderComponent((props) =>
-  <button
-    onClick={props.update}
-  >
-    {props.children} - {props.count}
-  </button>
-)
-
-class Label extends React.Component {
-  componentWillMount() {
-    console.log('label will mount')
-  }
-
-  render() {
-    return(
-      <label
-        onMouseMove={this.props.update}
-      >
-        {this.props.children} - {this.props.count}
-      </label>
-    )
-  }
-}
-
-const LabelHOC = HigherOrderComponent(Label)
 
 export default App;
