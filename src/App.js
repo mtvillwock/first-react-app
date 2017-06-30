@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { Button, Heart } from './widgets';
+import InputUpdater from './input-updater';
 // const App = () => <h1>Hello Stateless</h1>
 
 class App extends React.Component {
@@ -30,13 +31,16 @@ class App extends React.Component {
         <p>{this.state.foo}</p>
 
         <h3>Input</h3>
-        <Widget update={this.update} />
+        <Button update={this.update}>
+          Child of Button <Heart />
+        </Button>
+        <InputUpdater update={this.update}/>
       </div>
     );
   }
 }
 
-const Widget = (props) => <input type="text" onChange={props.update} />
+
 
 App.propsTypes = {
   text: React.PropTypes.string.isRequired,
