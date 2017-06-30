@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-  <App />,
+  <App text="Props text here" number={5} />,
   document.getElementById('root')
 );
 registerServiceWorker();
