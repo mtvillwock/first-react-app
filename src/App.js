@@ -1,46 +1,51 @@
 import React, { Component } from 'react';
-import InputUpdater from './input-updater';
-// const App = () => <h1>Hello Stateless</h1>
 import ReactDOM from 'react-dom';
+// const App = () => <h1>Hello Stateless</h1>
 
 class App extends React.Component {
   constructor() {
     super();
 
-    this.state = { a: '--' }
+    this.state = { val: 0 }
 
     this.update = this.update.bind(this)
   }
 
   update(e) {
-    this.setState({
-      a: ReactDOM.findDOMNode(this.a).value,
-      b: this.refs.b.value
-    })
+    this.setState({ val: this.state.val + 1 })
+  }
+
+  componentWillMount() {
+    console.log("componentWillMount")
   }
 
   render() {
-    let text = "Dog";
-    return (
-      <div>
-        <InputUpdater
-          ref={ component => this.a => component }
-          update={this.update}
-        />
-        <h1>{this.state.a}</h1>
-        <hr/>
-        <input type="text"
-          ref='b'
-          onChange={this.update}
-        />
-        <h1>{this.state.b}</h1>
-      </div>
-    );
+    console.log("rendered")
+    return <button onClick={this.update}>{this.state.val}</button>
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount')
   }
 }
 
-App.propsTypes = {
-  text: React.PropTypes.string.isRequired
+class Wrapper extends React.Component {
+  mount() {
+    ReactDOM.render(<App />, document.getElementById('a'))
+  }
+  unmount() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('a'))
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.mount.bind(this)}>Mount</button>
+        <button onClick={this.unmount.bind(this)}>unMount</button>
+        <div id="a"></div>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default Wrapper;
