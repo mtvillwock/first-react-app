@@ -9,6 +9,12 @@ class App extends React.Component {
     this.state = {
       foo: "Foo state text"
     }
+
+    this.update = this.update.bind(this);
+  }
+
+  update(e) {
+    this.setState({ foo: e.target.value });
   }
 
   render() {
@@ -22,6 +28,9 @@ class App extends React.Component {
         <h2>Subtitle</h2>
         <p>Description paragraph: {text}</p>
         <p>{this.state.foo}</p>
+
+        <h3>Input</h3>
+        <input type="text" onChange={this.update} />
       </div>
     );
   }
