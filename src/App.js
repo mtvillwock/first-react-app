@@ -30,11 +30,13 @@ class App extends React.Component {
         <p>{this.state.foo}</p>
 
         <h3>Input</h3>
-        <input type="text" onChange={this.update} />
+        <Widget update={this.update} />
       </div>
     );
   }
 }
+
+const Widget = (props) => <input type="text" onChange={props.update} />
 
 App.propsTypes = {
   text: React.PropTypes.string.isRequired,
