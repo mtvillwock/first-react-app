@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
-import './App.css'
 
-class App extends React.Component {
+class Buttons extends React.Component {
   constructor() {
     super();
+    this.state = {
+      selected: 'None'
+    }
+  }
+
+  selectItem() {
+    this.setState({selected})
   }
 
   render() {
+    let fn = child =>
+
+    let items = React.Children.map(this.props.children, fn);
     return(
-      <Parent>
-        <div className="childA"></div>
-        {
-        // <div className="childB"></div>
-        }
-      </Parent>
+      <div>
+        <h2>You have selected: {this.state.selected}</h2>
+      </div>
     )
   }
 }
 
-class Parent extends React.Component {
-  render() {
-    console.log(this.props.children)
-    // let items = this.props.Children
-    //   .map(this.props.children, child => child)
-    // let items = React.Children.toArray(this.props.children)
-    let items = React.Children.only(this.props.children)
-    console.log(items)
-    return null
-  }
-}
 
 export default App;
